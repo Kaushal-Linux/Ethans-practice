@@ -1,5 +1,5 @@
-output "public_ip" {
-    description = "Public Ip Of The EC2 Instance"
-    value = aws_instance.Jenkins.public_ip
+output "vpc_id" {
+    description = "ID of the VPC"
+    value = aws_vpc.TerrVPC.id
   
 }

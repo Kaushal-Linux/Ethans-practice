@@ -1,27 +1,26 @@
-resource "aws_instance" "Jenkins" {
-  ami = "ami-0f5ee92e2d63afc18"
-  instance_type = "t2.micro"
-  subnet_id = "subnet-04f5e9d84c3aaab37"
-  vpc_security_group_ids = ["sg-0eb420b594579783c"]
-  associate_public_ip_address = "true"
-  key_name = "Ethans"
-  user_data = <<EOF
-
-#!/bin/bash
-
-sudo apt update
-sudo apt install openjdk-11-jdk -y
-sudo curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo tee /usr/share/keyrings/jenkins-keyring.asc > /dev/null
-sudo echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
-  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
-  /etc/apt/sources.list.d/jenkins.list > /dev/null
-sudo apt update 
-sudo apt install jenkins
-sudo systemctl enable --now jenkins
-
-EOF
-  tags = {
-    Name = "Pipeline"
-  }
+resource "aws_vpc" "TerrVPC" {
+    cidr_block = "10.10.0.0/16"
+    tags = {
+      Name = "TerraformVPC"
+    }
+  
+}
+resource "aws_subnet" "pub-1a" {
+    vpc_id = aws_vpc.TerrVPC.id
+    cidr_block = var.cidrpub1a
+    availability_zone = var.region1
+    map_public_ip_on_launch = true
+    tags = {
+        Name = "Public-1a"
+    }
+  
+}
+resource "aws_subnet" "priv-1a" {
+    vpc_id = aws_vpc.TerrVPC.id
+    cidr_block = var.cidrpriv1a
+    availability_zone = var.region1
+    tags = {
+        Name = "Private-1a"
+    }
   
 }
