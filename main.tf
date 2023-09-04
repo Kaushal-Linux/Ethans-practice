@@ -1,4 +1,4 @@
-resource "aws_instance" "Jenkins_EC2" {
+resource "aws_instance" "Jenkins" {
   ami = "ami-0f5ee92e2d63afc18"
   instance_type = "t2.micro"
   subnet_id = "subnet-04f5e9d84c3aaab37"
@@ -21,7 +21,7 @@ sudo systemctl enable --now jenkins
 
 EOF
   tags = {
-    Name = "Jenkins"
+    Name = "Pipeline"
   }
   
 }
